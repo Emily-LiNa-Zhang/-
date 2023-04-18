@@ -1,88 +1,111 @@
 <template>
-  <div class="">
+  <div class="btnTable">
     <!-- 折叠面板 -->
     <div class="btnAndFold" :style="{ height: blockHeight }">
       <!-- 上面的按钮 -->
-      <div class="btn">
-        <el-row>
-          <el-button type="primary" icon="el-icon-document-add" size="medium"
+      <div class="buttons">
+        <el-row class="btns">
+          <el-button
+            type="primary"
+            icon="el-icon-document-add"
+            size="small"
+            class="btn"
             >创建用户</el-button
           >
-          <el-button icon="el-icon-upload2" size="medium">批量导入</el-button>
-          <el-button icon="el-icon-download" size="medium">下载模板</el-button>
-          <el-button icon="el-icon-download" size="medium">批量导出</el-button>
-          <el-button size="medium"
+          <el-button icon="el-icon-upload2" size="small" class="btn"
+            >批量导入</el-button
+          >
+          <el-button icon="el-icon-download" size="small" class="btn"
+            >下载模板</el-button
+          >
+          <el-button icon="el-icon-download" size="small" class="btn"
+            >批量导出</el-button
+          >
+          <el-button size="small" class="btn"
             >批量管理
             <li class="el-icon-arrow-down" style="color: black"></li
           ></el-button>
           <!-- 旁边的折叠面板按钮 -->
-          <el-button size="medium" @click="moreDown" class="foldBtn"
+          <el-button
+            size="small"
+            @click="moreDown"
+            class="foldBtn"
+            autofocus:false
             >筛选查询<i :class="caseClass"></i
           ></el-button>
         </el-row>
       </div>
       <!-- 下面的筛选框 -->
-      <div class="search">
-        <!-- 帐号状态 -->
-        <el-select
-          v-model="selectValue1"
-          clearable
-          placeholder="请选择账号状态"
-        >
-          <el-option
-            v-for="item in options1"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          >
-          </el-option>
-        </el-select>
-
-        <!-- 账号角色 -->
-        <el-select
-          v-model="selectValue2"
-          clearable
-          collapse-tags
-          style="margin-left: 20px"
-          placeholder="请选择账号角色"
-        >
-          <el-option
-            v-for="item in options2"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          >
-          </el-option>
-        </el-select>
-        <!-- 搜索框 -->
-        <el-input
-          type="search"
-          v-model="search"
-          placeholder="搜索用户姓名/账号名称"
-          suffix-icon="el-icon-search"
-        ></el-input>
+      <div class="searchs">
+        <el-row class="search">
+          <el-col class="blank"> </el-col>
+          <el-col class="sch">
+            <!-- 帐号状态 -->
+            <el-select
+              v-model="selectValue1"
+              clearable
+              placeholder="请选择账号状态"
+              size="small"
+            >
+              <el-option
+                v-for="item in options1"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              >
+              </el-option>
+            </el-select>
+            <!-- 账号角色 -->
+            <el-select
+              v-model="selectValue2"
+              clearable
+              collapse-tags
+              style="margin-left: 20px"
+              placeholder="请选择账号角色"
+              size="small"
+            >
+              <el-option
+                v-for="item in options2"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              >
+              </el-option>
+            </el-select>
+            <!-- 搜索框 -->
+            <el-input
+              type="search"
+              v-model="search"
+              placeholder="搜索用户姓名/账号名称"
+              suffix-icon="el-icon-search"
+              class="searchName"
+              size="small"
+            ></el-input>
+          </el-col>
+        </el-row>
       </div>
     </div>
 
     <!-- 表格 -->
+    <!-- <div class="table"></div> -->
     <div class="table">
-      <el-table :data="tables" style="width: 100%" max-height="500">
+      <el-table :data="tables" style="width: 98%" max-height="500">
         <!-- 多选框 -->
-        <el-table-column type="selection" width="55"> </el-table-column>
+        <el-table-column type="selection"> </el-table-column>
         <!-- 用户姓名 -->
-        <el-table-column label="用户姓名" width="100">
+        <el-table-column label="用户姓名">
           <template slot-scope="scope">
             <span class="col-cont" v-html="showDate(scope.row.name)"></span>
           </template>
         </el-table-column>
         <!-- 账号名称 -->
-        <el-table-column label="账号名称" show-overflow-tooltip width="100">
+        <el-table-column label="账号名称" show-overflow-tooltip>
           <template slot-scope="scope">
             <span class="col-cont" v-html="showDate(scope.row.account)"></span>
           </template>
         </el-table-column>
         <!-- 编号 -->
-        <el-table-column label="编号" show-overflow-tooltip width="100">
+        <el-table-column label="编号" show-overflow-tooltip>
           <template slot-scope="scope">
             <span class="col-cont" v-html="showDate(scope.row.number)"></span>
           </template>
@@ -91,7 +114,6 @@
         <el-table-column
           label="账号角色"
           show-overflow-tooltip
-          width="150"
           column-key="role"
         >
           <template slot-scope="scope">
@@ -99,7 +121,7 @@
           </template>
         </el-table-column>
         <!-- 账号状态 -->
-        <el-table-column label="账号状态" width="100" column-key="tag">
+        <el-table-column label="账号状态" column-key="tag">
           <template slot-scope="scope">
             <el-tag :type="scope.row.state === '启用' ? 'success' : 'warning'">
               {{ scope.row.state }}
@@ -107,7 +129,7 @@
           </template>
         </el-table-column>
         <!-- 账号过期时间 -->
-        <el-table-column label="账号过期时间" show-overflow-tooltip width="110">
+        <el-table-column label="有效时间" show-overflow-tooltip width="95">
           <template slot-scope="scope">
             <span
               class="col-cont"
@@ -116,7 +138,7 @@
           </template>
         </el-table-column>
         <!-- 操作 -->
-        <el-table-column fixed="right" label="操作" width="180">
+        <el-table-column fixed="right" label="操作" min-width="150%">
           <template slot-scope="scope">
             <el-link type="primary" :underline="false" @click="edit(scope)"
               >编辑</el-link
@@ -277,22 +299,17 @@ export default {
       if (val.indexOf(this.search) !== -1 && this.search !== "") {
         return val.replace(
           this.search,
-          '<font color="#409EFF">' + this.search + "</font>"
+          this.search
+          // '<font color="#409EFF">' + this.search + "</font>"
         );
       } else {
         return val;
       }
     },
-    filterTag(value, row) {
-      return row.state === value;
-    },
-    filterHandler(value, row, column) {
-      return row.role === value;
-    },
     moreDown() {
       this.moreValue++;
       if (this.moreValue % 2 != 1) {
-        this.blockHeight = "120px";
+        this.blockHeight = "110px";
         this.caseClass = "el-icon-arrow-down";
       } else {
         this.blockHeight = "50px";
@@ -302,16 +319,12 @@ export default {
     changState(scope) {
       let item = this.tableData[scope.$index];
       let order = item["state"] === "启用" ? "禁用" : "启用";
-      this.$confirm(
-        `<span style='color:black'>确定要将此项</span><span style='color:#0096ff'>${order}</span><span style='color:black'>吗？</span>`,
-        "提示",
-        {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          dangerouslyUseHTMLString: true,
-          type: "warning",
-        }
-      )
+      this.$confirm(`确定要将此项${order}吗？`, "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        dangerouslyUseHTMLString: true,
+        type: "warning",
+      })
         .then(() => {
           this.$message({
             type: "success",
@@ -333,33 +346,81 @@ export default {
     edit(scope) {
       console.log("编辑输出");
     },
+    moreActions() {
+      console.log("更多操作。。。");
+    },
   },
 };
 </script>
-<style scoped>
-.btnAndFold {
-  overflow: hidden;
-}
-.foldBtn {
-  margin-left: 40px;
-}
-.search {
-  margin-top: 30px;
-  margin-bottom: 20px;
-}
+<style scoped lang="scss">
+.btnTable {
+  .btnAndFold {
+    overflow: hidden;
+    .btns {
+      display: flex;
+      .btn {
+        flex: 6;
+      }
+      .foldBtn {
+        flex: 1;
+        margin-left: 34px;
+      }
+      .foldBtn {
+        background: #fff;
+        border-color: #cbcbcd;
+        color: #505255;
+      }
+      .foldBtn :hover {
+        background: #ecf5ff;
+        border-color: #c6efff;
+        color: #40a9ff;
+      }
+    }
 
-.el-input {
-  width: 210px;
-  margin-left: 20px;
-}
-.table {
-  border: 1px solid rgb(215, 215, 215);
-  border-radius: 5px;
-  padding: 10px;
-}
-/* 去掉表格下面多出来的一小节 */
-.el-table::before {
-  /* 将高度修改为0 */
-  height: 0;
+    .searchs {
+      margin-top: 25px;
+      margin-bottom: 15px;
+      .search {
+        display: flex;
+        justify-content: space-between;
+        .blank {
+          flex: 1.1;
+        }
+        .sch {
+          flex: 3.9;
+          display: flex;
+          justify-content: space-between;
+          .el-select {
+            width: 140px;
+          }
+          .searchName {
+            width: 195px;
+            margin-left: 20px;
+          }
+        }
+      }
+    }
+  }
+  .table {
+    height: 500px;
+    border: 1px solid rgb(215, 215, 215);
+    border-radius: 5px;
+    padding: 10px;
+    flex: 1;
+    position: relative;
+    .el-table {
+      position: absolute;
+      font-size: 13px;
+    }
+    .el-link {
+      margin-right: 5px;
+      font-size: 13px;
+    }
+    /* 去掉表格下面多出来的一小节 */
+    .el-table::before {
+      /* 将高度修改为0 */
+      height: 0;
+    }
+  }
 }
 </style>

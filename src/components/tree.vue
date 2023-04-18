@@ -1,15 +1,16 @@
 <template>
-  <div class="treeBox">
+  <div class="organizeTree">
     <div class="search">
       <el-input
         placeholder="搜索名称"
         v-model="filterText"
         suffix-icon="el-icon-search"
+        size="small"
       >
       </el-input>
     </div>
 
-    <div class="question_info_lists">
+    <div class="info_lists">
       <el-tree
         ref="tree"
         :key="tree_key"
@@ -115,6 +116,7 @@ export default {
   },
 
   methods: {
+    // 搜索
     filterNode(value, data) {
       if (!value) return true;
       return data.label.indexOf(value) !== -1;
@@ -209,27 +211,32 @@ export default {
   },
 };
 </script> 
-<style scoped>
-.search {
-  margin-bottom: 20px;
-}
-.question_info_lists {
-  height: 480px;
-  overflow: auto;
-}
-.question_info_lists::-webkit-scrollbar {
-  width: 10px;
-}
-.question_info_lists::-webkit-scrollbar-thumb {
-  background: #ccc;
-  border-radius: 5px;
-}
+<style scoped lang="scss">
+.organizeTree {
+  .search {
+    margin-bottom: 20px;
+  }
+  .info_lists {
+    height: 480px;
+    overflow: auto;
+    .info_lists::-webkit-scrollbar {
+      width: 10px;
+    }
+    .info_lists::-webkit-scrollbar-thumb {
+      background: #ccc;
+      border-radius: 5px;
+    }
 
-.el-tree-node__content {
-  height: 30px;
-}
-/* 树形控件前面的箭头大小 */
-.el-tree /deep/ .el-icon-caret-right:before {
-  font-size: 18px;
+    .el-tree /deep/ .el-tree-node__content {
+      height: 40px;
+      font-size: 13px;
+    }
+
+    /* 树形控件前面的箭头大小 */
+    .el-tree /deep/ .el-icon-caret-right:before {
+      font-size: 18px;
+      color: #5a5a5a;
+    }
+  }
 }
 </style>

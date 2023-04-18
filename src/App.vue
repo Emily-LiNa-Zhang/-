@@ -5,9 +5,16 @@
 </template>
 
 <style>
+* {
+  margin: 0;
+  padding: 0;
+}
 #app {
   margin: 0;
   padding: 0;
+  width: 100%;
+  min-width: 1200px;
+  overflow: auto;
 }
 body {
   margin: 0;
